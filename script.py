@@ -1,39 +1,63 @@
 #!/usr/bin/python3
 
 import argparse
-from sys import argv
+import sys
 from apiclient.discovery import build
 
-def query(query , api , cse):
-    s = build("customsearch" , "v1" , developerKey = api).cse()
-    results = s.list(q = query , cx = cse).execute()
-    return results['items']
+def banner():
+    print("-"*50)
+    print("DORKY by ev1l._.m0rty")
+    print("https://github.com/mrjoker05")
+    print("-"*50)
+    print()
+
+def query(query , api , cse , f):
+    try:
+        s = build("customsearch" , "v1" , developerKey = api).cse()
+        results = s.list(q = query , cx = cse).execute()
+        return results['items']
+    except:
+        print("\n[!] Daily Limit of API key reached. Try tomorrow\n")
+        f.close()
+        sys.exit()
     
 def main():
+    banner()
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d" , help="List of dorks")
-    parser.add_argument("-a" , help="Google API key")
-    parser.add_argument("-c" , help="Custom Search Id")
-    parser.add_argument("-o" , help="Output file")
+    parser.add_argument("-d" ,"--dork" , help="List of dorks" , required = True)
+    parser.add_argument("-a" , "--api" , help="Google API key", required = True)
+    parser.add_argument("-c" , "--csi" , help="Custom Search Id", required = True)
+    parser.add_argument("-o" , "--output" , help="Output file")
     args = parser.parse_args()
     
-    api = args.a
-    csi = args.c
-    dorks = args.d
-    output = args.o
+    api = args.api
+    csi = args.csi
+    dorks = args.dork
+    output = args.output
 
     f = open(dorks)
-    w = open(output , "w+")
+    try:
+        w = open(output , "w+")
+    except:
+        pass
+    
     lines = f.readlines()
     results = []
 
     for i in lines:
-       for j in query(i.strip() , api , csi):
+       for j in query(i.strip() , api , csi ,f):
            print(j['link'])
-           w.write(j['link'])
-           w.write('\n')
+           try:
+               w.write(j['link'])
+               w.write('\n')
+           except:
+               pass
 
-    w.close()
+    try:
+        w.close()
+    except:
+        pass
+    
     f.close()
 
 main()
