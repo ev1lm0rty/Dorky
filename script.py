@@ -14,7 +14,7 @@ def banner():
 def query(query , api , cse , f):
     try:
         s = build("customsearch" , "v1" , developerKey = api).cse()
-        results = s.list(q = query , cx = cse).execute()
+        results = s.list(q = query , cx = cse, start=21).execute()
         return results['items']
     except:
         print("\n[!] Daily Limit of API key reached. Try tomorrow\n")
