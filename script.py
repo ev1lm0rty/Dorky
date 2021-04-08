@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import time
 import sys
 from apiclient.discovery import build
 
@@ -14,7 +15,8 @@ def banner():
 def query(query , api , cse , f):
     try:
         s = build("customsearch" , "v1" , developerKey = api).cse()
-        results = s.list(q = query , cx = cse, start=21).execute()
+        #results = s.list(q = query , cx = cse, start=21).execute()
+        results = s.list(q = query , cx = cse).execute()
         return results['items']
     except:
         print("\n[!] Daily Limit of API key reached. Try tomorrow\n")

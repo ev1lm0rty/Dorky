@@ -9,7 +9,6 @@
 "submit vulnerability report"
 "van de melding met een minimum van een" -site:responsibledisclosure.nl
 "vulnerability reporting policy"
-/trust/report-a-vulnerability
 insite:"responsible disclosure" -inurl:nl
 intext responsible disclosure
 intext:"BugBounty" and intext:"BTC" and intext:"reward"
